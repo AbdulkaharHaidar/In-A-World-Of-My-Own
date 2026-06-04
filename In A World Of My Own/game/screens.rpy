@@ -287,50 +287,9 @@ style quick_button_text:
 ## This screen is included in the main and game menus, and provides navigation
 ## to other menus, and to start the game.
 
-screen navigation():
+# screen navigation():
 
-    vbox:
-        style_prefix "navigation"
-
-        xpos gui.navigation_xpos
-        yalign 0.5
-
-        spacing gui.navigation_spacing
-
-        if main_menu:
-
-            textbutton _("Start") action Start()
-
-        else:
-
-            textbutton _("History") action ShowMenu("history")
-
-            textbutton _("Save") action ShowMenu("save")
-
-        textbutton _("Load") action ShowMenu("load")
-
-        textbutton _("Preferences") action ShowMenu("preferences")
-
-        if _in_replay:
-
-            textbutton _("End Replay") action EndReplay(confirm=True)
-
-        elif not main_menu:
-
-            textbutton _("Main Menu") action MainMenu()
-
-        textbutton _("About") action ShowMenu("about")
-
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-            ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("Help") action ShowMenu("help")
-
-        if renpy.variant("pc"):
-
-            ## The quit button is banned on iOS and unnecessary on Android and
-            ## Web.
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+    
 
 
 style navigation_button is gui_button
@@ -358,12 +317,60 @@ screen main_menu():
     add gui.main_menu_background
 
     ## This empty frame darkens the main menu.
-    frame:
-        style "main_menu_frame"
+    # frame:
+    #     style "main_menu_frame"
 
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
-    use navigation
+    # use navigation
+    vbox:
+        style_prefix "navigation"
+
+        xpos 0
+        ypos 360
+        # yalign 0.5
+
+        spacing 0
+
+        if main_menu:
+
+            # textbutton _("Start") action Start()
+            imagebutton auto "gui/custom/play_%s.png" xpos 210 ypos 550 focus_mask True action Start()
+
+        else:
+
+            textbutton _("History") action ShowMenu("history")
+
+            # textbutton _("Save") action ShowMenu("save")
+
+        # textbutton _("Load") action ShowMenu("load")
+
+        # textbutton _("Preferences") action ShowMenu("preferences")
+        imagebutton auto "gui/custom/settings_%s.png" xpos 360 ypos 410 focus_mask True action ShowMenu("preferences")
+
+        if _in_replay:
+
+            textbutton _("End Replay") action EndReplay(confirm=True)
+
+        elif not main_menu:
+
+            textbutton _("Main Menu") action MainMenu()
+
+        # textbutton _("About") action ShowMenu("about")
+        imagebutton auto "gui/custom/credits_%s.png" xpos 510 ypos 250 focus_mask True action ShowMenu("about")
+
+        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+
+            ## Help isn't necessary or relevant to mobile devices.
+            # textbutton _("Help") action ShowMenu("help")
+            imagebutton auto "gui/custom/help_%s.png" xpos 650 ypos 100 focus_mask True action ShowMenu("help")
+
+        if renpy.variant("pc"):
+
+            ## The quit button is banned on iOS and unnecessary on Android and
+            ## Web.
+            # textbutton _("Quit") action Quit(confirm=not main_menu)
+            imagebutton auto "gui/custom/exit_%s.png" xpos 790 ypos -50 focus_mask True action Quit(confirm=not main_menu)
 
     if gui.show_name:
 
@@ -473,7 +480,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
                     transclude
 
-    use navigation
+    # use navigation
 
     textbutton _("Return"):
         style "return_button"
